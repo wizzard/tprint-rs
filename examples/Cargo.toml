@@ -1,0 +1,20 @@
+
+[package]
+name = "tpront-examples"
+version = "0.0.1"
+publish = false
+edition = "2021"
+
+[dependencies]
+tprint = { path = "../" }
+
+[dev-dependencies]
+chrono = "0.4.39"
+
+[[example]]
+name = "basic_usage"
+path = "basic_usage.rs"
+
+[[example]]
+name = "file_output"
+path = "file_output.rs"

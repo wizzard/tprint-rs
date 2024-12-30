@@ -1,2 +1,3 @@
 # tprint-rs
-Rust crate to print tabular data
+
+A simple library to print tabular data

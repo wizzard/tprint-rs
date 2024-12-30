@@ -1,0 +1,21 @@
+[package]
+name = "tprint"
+version = "0.0.1"
+authors = ["Paul Jonkins <paul.jonkins@gmail.com>"]
+edition = "2021"
+description = "A simple library to print tabular data"
+readme = "README.md"
+repository = "https://github.com/wizzard/tprint"
+license = "MIT"
+
+categories = ["command-line-interface"]
+keywords = ["table", "print", "console", "tabular"]
+
+[workspace]
+members = ["examples"]
+
+[dependencies]
+unicode-width = "0.2.0"
+
+[dev-dependencies]
+chrono = "0.4.39"
