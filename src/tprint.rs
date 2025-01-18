@@ -1,11 +1,11 @@
 use std::fmt;
 use std::cell::RefCell;
 use std::rc::Rc;
-use unicode_width::UnicodeWidthStr;
 
-use crate::tprint_column::{TPrintColumn, TPrintAlign};
-use crate::tprint_output::{TPrintOutput, TPrintOutputStdout};
-use crate::tprint_borders::{TPrintBorders, TPrintBordersASCII, TPrintBordersType};
+use crate::column::{TPrintColumn, TPrintAlign};
+use crate::output::{TPrintOutput, TPrintOutputStdout};
+use crate::borders::{TPrintBorders, TPrintBordersASCII, TPrintBordersType};
+use crate::utils::get_string_width;
 
 type TPrintOutputRef = Rc<RefCell<dyn TPrintOutput>>;
 type TPrintBordersRef = Rc<RefCell<dyn TPrintBorders>>;
@@ -95,6 +95,7 @@ impl TPrint {
 
     fn print_horizonal_border(&self, left: &TPrintBordersType, right: &TPrintBordersType, middle: &TPrintBordersType, line: &TPrintBordersType) {
         if !self.show_borders {
+            self.output.borrow_mut().print_str(self.borders.borrow().get_border(&TPrintBordersType::NewLine));
             return
         }
 
@@ -140,11 +141,11 @@ impl TPrint {
         self.output.borrow_mut().print_str(self.borders.borrow().get_border(v_border));
     }
 
-    fn print_cell(&self, value: &str, max_width: usize, align: &TPrintAlign) {
+    fn print_cell(&self, value: &str, max_width: usize, align: &TPrintAlign, whitespace: &str) {
         let left_spaces;
         let right_spaces;
 
-        let value_len = value.width();
+        let value_len = get_string_width(value);
 
         match align {
             TPrintAlign::Left => {
@@ -161,36 +162,39 @@ impl TPrint {
             }
         }
 
-        self.output.borrow_mut().print_str(&" ".repeat(left_spaces));
+        self.output.borrow_mut().print_str(&whitespace.repeat(left_spaces));
         self.output.borrow_mut().print_str(value);
-        self.output.borrow_mut().print_str(&" ".repeat(right_spaces));
+        self.output.borrow_mut().print_str(&whitespace.repeat(right_spaces));
     }
 
     pub fn print(&self) {
         let total_rows: usize = self.columns.iter().map(|c| c.get_rows_count()).max().unwrap_or(0);
 
-        self.output.borrow_mut().print_str(self.borders.borrow().get_intro());
+        let border = self.borders.borrow();
+        let whitespace = border.get_border(&TPrintBordersType::WhiteSpace);
+
+        self.output.borrow_mut().print_str(border.get_intro(self.show_borders, self.show_headers));
 
         if self.show_headers {
             self.print_horizonal_border(&TPrintBordersType::HeaderTopLeft, &TPrintBordersType::HeaderTopRight, &TPrintBordersType::HeaderTopMiddle, &TPrintBordersType::HeaderHLine);
 
             if self.spaces_left > 0 {
-                self.output.borrow_mut().print_str(&" ".repeat(self.spaces_left));
+                self.output.borrow_mut().print_str(&whitespace.repeat(self.spaces_left));
             }
 
-            self.print_left_border(&TPrintBordersType::HeaderVLine);
+            self.print_left_border(&TPrintBordersType::HeaderLeftVLine);
 
             for cid in 0..self.columns.len() {
                 let c = &self.columns[cid];
 
                 if cid > 0 {
-                    self.print_internal_border(&TPrintBordersType::HeaderVLine);
+                    self.print_internal_border(&TPrintBordersType::HeaderMiddleVLine);
                 }
 
-                self.print_cell(c.get_caption(), c.get_max_width(), c.get_caption_align());
+                self.print_cell(c.get_caption(), c.get_max_width(), c.get_caption_align(), whitespace);
             }
 
-            self.print_right_border(&TPrintBordersType::HeaderVLine);
+            self.print_right_border(&TPrintBordersType::HeaderRightVLine);
 
             self.print_horizonal_border(&TPrintBordersType::HeaderBottomLeft, &TPrintBordersType::HeaderBottomRight, &TPrintBordersType::HeaderBottomMiddle, &TPrintBordersType::HeaderHLine);
 
@@ -200,7 +204,7 @@ impl TPrint {
 
         for r in 0..total_rows {
             if self.spaces_left > 0 {
-                self.output.borrow_mut().print_str(&" ".repeat(self.spaces_left));
+                self.output.borrow_mut().print_str(&whitespace.repeat(self.spaces_left));
             }
 
             self.print_left_border(&TPrintBordersType::MiddleLeftVLine);
@@ -211,7 +215,7 @@ impl TPrint {
                     self.print_internal_border(&TPrintBordersType::MiddleMiddleVLine);
                 }
 
-                self.print_cell(c.get_str(r), c.get_max_width(), c.get_data_align());
+                self.print_cell(c.get_str(r), c.get_max_width(), c.get_data_align(), whitespace);
             }
             self.print_right_border(&TPrintBordersType::MiddleRightVLine);
 
@@ -221,5 +225,7 @@ impl TPrint {
         }
 
         self.print_horizonal_border(&TPrintBordersType::BottomLeft, &TPrintBordersType::BottomRight, &TPrintBordersType::BottomMiddle, &TPrintBordersType::BottomHLine);
+
+        self.output.borrow_mut().print_str(border.get_closing());
     }
 }

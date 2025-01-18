@@ -1,4 +1,4 @@
-use unicode_width::UnicodeWidthStr;
+use crate::utils::get_string_width;
 
 pub enum TPrintAlign {
     Left,
@@ -21,14 +21,14 @@ impl TPrintColumn {
             caption_align,
             data_align,
             data: Vec::new(),
-            max_width: caption.width()
+            max_width: get_string_width(caption)
         }
     }
 
     pub fn add_data<T: ToString>(&mut self, value: T) {
         self.data.push(value.to_string());
 
-        let value_len = value.to_string().width();
+        let value_len = get_string_width(&value.to_string());
 
         if value_len > self.max_width {
             self.max_width = value_len;

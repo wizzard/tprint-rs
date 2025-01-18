@@ -17,8 +17,8 @@ fn main() -> io::Result<()> {
 
     let mut f_tprint = TPrint::new_with_borders_output(borders, output, true, true, 0, 1);
 
-    f_tprint.column_add("Name", TPrintAlign::Center, TPrintAlign::Left).
-        column_add("Type", TPrintAlign::Center, TPrintAlign::Center).
+    f_tprint.column_add("Type", TPrintAlign::Center, TPrintAlign::Center).
+        column_add("Name", TPrintAlign::Center, TPrintAlign::Left).
         column_add("Size", TPrintAlign::Center, TPrintAlign::Right).
         column_add("Creation time", TPrintAlign::Center, TPrintAlign::Left);
 
@@ -31,14 +31,14 @@ fn main() -> io::Result<()> {
         let file_type = entry.file_type()?;
         let file_name = entry.file_name().into_string().unwrap();
 
-        let duration_since_epoch = metadata.created()?.duration_since(UNIX_EPOCH).expect("Incorrect file datatime format");
+        let duration_since_epoch = metadata.created()?.duration_since(UNIX_EPOCH).expect("Incorrect file datetime format");
         let secs = duration_since_epoch.as_secs();
         let file_date = chrono::DateTime::from_timestamp(secs as i64, 0)
             .map(|dt| dt.format("%Y-%m-%d %H:%M:%S").to_string())
             .unwrap_or_else(|| "Invalid timestamp".to_string());
 
-        f_tprint.add_data(file_name);
         f_tprint.add_data(if file_type.is_dir() { DIR_SYMBOL } else { FILE_SYMBOL });
+        f_tprint.add_data(file_name);
         f_tprint.add_data(metadata.len());
         f_tprint.add_data(file_date);
     }
@@ -47,8 +47,7 @@ fn main() -> io::Result<()> {
 
     let output = fs::read_to_string(OUT_FILE)?;
     print!("{}", output);
-    println!("TPrint Output file is: {}", OUT_FILE);
-
+    println!("Content of TPrint Output file: {}", OUT_FILE);
 
     Ok(())
 }

@@ -1,11 +1,12 @@
 mod tprint;
-mod tprint_column;
-mod tprint_output;
-mod tprint_borders;
+mod column;
+mod output;
+mod borders;
+mod utils;
 
 pub use tprint::TPrint;
-pub use tprint_column::TPrintAlign;
+pub use column::TPrintAlign;
 
-pub use tprint_output::{TPrintOutputString, TPrintOutputFile};
+pub use output::{TPrintOutputString, TPrintOutputFile};
 
-pub use tprint_borders::TPrintBordersUnicode;
+pub use borders::{TPrintBordersUnicode, TPrintBordersHTML};
