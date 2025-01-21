@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 A simple Rust crate to print tabular data.
-A similar C++ library: [libtprint](https://github.com/wizzard/libtprint)
+A similar C library: [libtprint](https://github.com/wizzard/libtprint)
 
 ## Features
 
@@ -14,6 +14,11 @@ A similar C++ library: [libtprint](https://github.com/wizzard/libtprint)
 * output to a String / file
 * output as HTML table
 * ASCII borders / Unicode borders
+
+## Documentation
+
+[API documentation](https://docs.rs/tprint/latest/tprint/)
+[Examples directory](https://github.com/wizzard/tprint-rs/tree/main/examples)
 
 ## Examples
 
