@@ -1,5 +1,10 @@
 # tprint
 
+[![Crates.io](https://img.shields.io/crates/v/tprint.svg)](https://crates.io/crates/tprint)
+[![Documentation](https://docs.rs/tprint/badge.svg)](https://docs.rs/tprint/)
+[![Dependency status](https://deps.rs/repo/github/wizzard/tprint-rs/status.svg)](https://deps.rs/repo/github/wizzard/tprint-rs)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 A simple Rust crate to print tabular data.
 A similar C++ library: [libtprint](https://github.com/wizzard/libtprint)
 
