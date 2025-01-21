@@ -1,6 +1,7 @@
 # tprint
 
-A simple crate to print tabular data
+A simple crate to print tabular data.
+A similar C++ library: [libtprint](https://github.com/wizzard/libtprint)
 
 ## Features
 
@@ -15,8 +16,9 @@ A simple crate to print tabular data
 
 ```rust
 use tprint::{TPrint, TPrintAlign};
+
 fn main() {
-    TPrint::new(true, true, 20, 3).
+    TPrint::new(true, true, 10, 3).
         column_add("Name", TPrintAlign::Center, TPrintAlign::Left).
         column_add("Age", TPrintAlign::Center, TPrintAlign::Center).
         column_add("City", TPrintAlign::Center, TPrintAlign::Right).
@@ -41,12 +43,14 @@ fn main() {
 ### Output to a String
 
 ```rust
-use tprint::{TPrint, TPrintAlign, TPrintOutputString};
+use tprint::{TPrint, TPrintAlign, TPrintOutputString, TPrintBordersUnicode};
 use std::cell::RefCell;
 use std::rc::Rc;
+
 fn main() {
     let str_output = Rc::new(RefCell::new(TPrintOutputString::new()));
-    let mut str_tprint = TPrint::new_with_output(str_output.clone(), true, true, 0, 1);
+    let borders = Rc::new(RefCell::new(TPrintBordersUnicode {}));
+    let mut str_tprint = TPrint::new_with_borders_output(borders, str_output.clone(), true, true, 0, 1);
 
     str_tprint.column_add("Left", TPrintAlign::Left, TPrintAlign::Left);
     str_tprint.column_add("Center", TPrintAlign::Center, TPrintAlign::Center);
@@ -106,3 +110,7 @@ fn main() {
 ![Output to a HTML](images/output_to_html.png)
 
 More examples in `examples` folder.
+
+## License
+
+Licensed under the Apache License, Version 2.0 (the "License").

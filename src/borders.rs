@@ -172,7 +172,6 @@ impl TPrintBorders for TPrintBordersUnicode {
 
 pub struct TPrintBordersHTML {}
 
-
 static TPRINT_BORDERS_HTML_TABLE: &[TPrintBordersTable] = &[
     TPrintBordersTable { border_type: TPrintBordersType::WhiteSpace, border: "" },
     TPrintBordersTable { border_type: TPrintBordersType::NewLine, border: "" },
