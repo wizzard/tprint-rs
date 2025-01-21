@@ -27,7 +27,7 @@ A similar C library: [libtprint](https://github.com/wizzard/libtprint)
 ```rust
 use tprint::{TPrint, TPrintAlign};
 
-fn main() {
+fn main() -> std::io::Result<()> {
     TPrint::new(true, true, 10, 3).
         column_add("Name", TPrintAlign::Center, TPrintAlign::Left).
         column_add("Age", TPrintAlign::Center, TPrintAlign::Center).
@@ -44,7 +44,7 @@ fn main() {
         add_data("Madrid").
         add_data("Accountant").
         add_data("❤️😴🤦🏼‍♂️").
-        print();
+        print()
 }
 ```
 
@@ -57,7 +57,7 @@ use tprint::{TPrint, TPrintAlign, TPrintOutputString, TPrintBordersUnicode};
 use std::cell::RefCell;
 use std::rc::Rc;
 
-fn main() {
+fn main() -> std::io::Result<()> {
     let str_output = Rc::new(RefCell::new(TPrintOutputString::new()));
     let borders = Rc::new(RefCell::new(TPrintBordersUnicode {}));
     let mut str_tprint = TPrint::new_with_borders_output(borders, str_output.clone(), true, true, 0, 1);
@@ -79,6 +79,7 @@ fn main() {
     str_tprint.print();
 
     println!("{}", str_output.borrow().get_str());
+    Ok(())
 }
 ```
 
@@ -93,7 +94,7 @@ use std::rc::Rc;
 
 const OUT_FILE: &str = "/tmp/tprint.html";
 
-fn main() {
+fn main() -> std::io::Result<()> {
     let output = Rc::new(RefCell::new(TPrintOutputFile::new(OUT_FILE).unwrap()));
     let borders = Rc::new(RefCell::new(TPrintBordersHTML {}));
     TPrint::new_with_borders_output(borders, output, true, true, 0, 1).
@@ -112,8 +113,7 @@ fn main() {
         add_data("Madrid").
         add_data("Accountant").
         add_data("❤️😴🤦🏼‍♂️").
-        print();
-    println!();
+        print()
 }
 ```
 

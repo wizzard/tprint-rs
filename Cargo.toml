@@ -1,6 +1,6 @@
 [package]
 name = "tprint"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Paul Jonkins <paul.jonkins@gmail.com>"]
 edition = "2021"
 description = "A simple crate to print tabular data"
@@ -20,16 +20,3 @@ chrono = "0.4.39"
 [features]
 default = ["unicode"]
 unicode = ["dep:unicode-width"]
-
-
-[[example]]
-name = "basic_usage"
-path = "examples/basic_usage.rs"
-
-[[example]]
-name = "file_output"
-path = "examples/file_output.rs"
-
-[[example]]
-name = "html_output"
-path = "examples/html_output.rs"

@@ -4,7 +4,7 @@ use std::io::{self, Write};
 
 /// Defines the methods that a TPrintOutput object must implement.
 pub trait TPrintOutput {
-    fn print_str(&mut self, s: &str);
+    fn print_str(&mut self, s: &str) -> Result<(), io::Error>;
 }
 
 /// An struct that prints output to stdout (default).
@@ -13,8 +13,9 @@ pub struct TPrintOutputStdout {}
 impl TPrintOutputStdout {}
 
 impl TPrintOutput for TPrintOutputStdout {
-    fn print_str(&mut self, s: &str) {
+    fn print_str(&mut self, s: &str) -> Result<(), io::Error> {
         print!("{}", s);
+        Ok(())
     }
 }
 
@@ -44,8 +45,9 @@ impl Default for TPrintOutputString {
 }
 
 impl TPrintOutput for TPrintOutputString {
-    fn print_str(&mut self, s: &str) {
+    fn print_str(&mut self, s: &str) -> Result<(), io::Error> {
         self.str.push_str(s);
+        Ok(())
     }
 }
 
@@ -68,7 +70,7 @@ impl TPrintOutputFile {
 }
 
 impl TPrintOutput for TPrintOutputFile {
-    fn print_str(&mut self, s: &str) {
-        self.f.write_all(s.as_bytes()).unwrap();
+    fn print_str(&mut self, s: &str) -> io::Result<()> {
+        self.f.write_all(s.as_bytes())
     }
 }

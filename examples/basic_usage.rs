@@ -1,6 +1,6 @@
 use tprint::{TPrint, TPrintAlign};
 
-fn main() {
+fn main() -> std::io::Result<()> {
     println!("1. Basic usage example: a table with 5 columns and 2 rows, with 10 spaces of padding from the left:");
     TPrint::new(true, true, 10, 3).
         column_add("Name", TPrintAlign::Center, TPrintAlign::Left).
@@ -18,10 +18,9 @@ fn main() {
         add_data("Madrid").
         add_data("Accountant").
         add_data("❤️😴🤦🏼‍♂️").
-        print();
-    println!();
+        print()?;
 
-    println!("2. Basic usage example: a table without borders with 5 columns and 2 rows, with 10 spaces of padding from the left:");
+    println!("\n2. Basic usage example: a table without borders with 5 columns and 2 rows, with 10 spaces of padding from the left:");
     TPrint::new(false, true, 10, 3).
         column_add("Name", TPrintAlign::Center, TPrintAlign::Left).
         column_add("Age", TPrintAlign::Center, TPrintAlign::Center).
@@ -38,10 +37,9 @@ fn main() {
         add_data("Madrid").
         add_data("Accountant").
         add_data("❤️😴🤦🏼‍♂️").
-        print();
-    println!();
+        print()?;
 
-    println!("3. Basic usage example: a table without borders and headers with 5 columns and 2 rows, with 10 spaces of padding from the left:");
+    println!("\n3. Basic usage example: a table without borders and headers with 5 columns and 2 rows, with 10 spaces of padding from the left:");
     TPrint::new(false, false, 10, 3).
         column_add("Name", TPrintAlign::Center, TPrintAlign::Left).
         column_add("Age", TPrintAlign::Center, TPrintAlign::Center).
@@ -58,6 +56,5 @@ fn main() {
         add_data("Madrid").
         add_data("Accountant").
         add_data("❤️😴🤦🏼‍♂️").
-        print();
-    println!();
+        print()
 }

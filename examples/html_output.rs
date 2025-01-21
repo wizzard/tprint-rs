@@ -4,7 +4,7 @@ use std::rc::Rc;
 
 const OUT_FILE: &str = "/tmp/tprint.html";
 
-fn main() {
+fn main() -> std::io::Result<()> {
     let output = Rc::new(RefCell::new(TPrintOutputFile::new(OUT_FILE).unwrap()));
     let borders = Rc::new(RefCell::new(TPrintBordersHTML {}));
     TPrint::new_with_borders_output(borders, output, true, true, 0, 1).
@@ -23,6 +23,5 @@ fn main() {
         add_data("Madrid").
         add_data("Accountant").
         add_data("❤️😴🤦🏼‍♂️").
-        print();
-    println!();
+        print()
 }

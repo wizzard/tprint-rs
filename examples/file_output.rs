@@ -43,7 +43,7 @@ fn main() -> io::Result<()> {
         f_tprint.add_data(file_date);
     }
 
-    f_tprint.print();
+    f_tprint.print()?;
 
     let output = fs::read_to_string(OUT_FILE)?;
     print!("{}", output);
