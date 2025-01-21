@@ -17,8 +17,8 @@ A similar C library: [libtprint](https://github.com/wizzard/libtprint)
 
 ## Documentation
 
-[API documentation](https://docs.rs/tprint/latest/tprint/)
-[Examples directory](https://github.com/wizzard/tprint-rs/tree/main/examples)
+* [API documentation](https://docs.rs/tprint/latest/tprint/)
+* [Examples directory](https://github.com/wizzard/tprint-rs/tree/main/examples)
 
 ## Examples
 
