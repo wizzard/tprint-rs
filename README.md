@@ -1,6 +1,6 @@
 # tprint
 
-A simple crate to print tabular data.
+A simple Rust crate to print tabular data.
 A similar C++ library: [libtprint](https://github.com/wizzard/libtprint)
 
 ## Features

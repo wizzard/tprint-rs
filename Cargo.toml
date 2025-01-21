@@ -1,6 +1,6 @@
 [package]
 name = "tprint"
-version = "0.0.2"
+version = "1.0.0"
 authors = ["Paul Jonkins <paul.jonkins@gmail.com>"]
 edition = "2021"
 description = "A simple crate to print tabular data"

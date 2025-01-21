@@ -1,3 +1,5 @@
+//! tprint is a simple Rust crate to print tabular data.
+
 mod tprint;
 mod column;
 mod output;

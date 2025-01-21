@@ -10,6 +10,7 @@ use crate::utils::get_string_width;
 type TPrintOutputRef = Rc<RefCell<dyn TPrintOutput>>;
 type TPrintBordersRef = Rc<RefCell<dyn TPrintBorders>>;
 
+/// A struct to store the table data
 pub struct TPrint {
     output: TPrintOutputRef,
     borders: TPrintBordersRef,
@@ -22,6 +23,7 @@ pub struct TPrint {
 }
 
 impl TPrint {
+    /// Creates a new TPrint object with the default ASCII borders and default output to stdout.
     pub fn new(show_borders: bool, show_headers: bool, spaces_left: usize, extra_spaces_between: usize) -> Self {
         TPrint {
             output: Rc::new(RefCell::new(TPrintOutputStdout {})),
@@ -34,7 +36,7 @@ impl TPrint {
             current_column_id: 0,
         }
     }
-
+    /// Creates a new TPrint object with the default ASCII borders and the specified output.
     pub fn new_with_output(output: TPrintOutputRef, show_borders: bool, show_headers: bool, spaces_left: usize, extra_spaces_between: usize) -> Self {
         TPrint {
             output,
@@ -48,6 +50,7 @@ impl TPrint {
         }
     }
 
+    /// Creates a new TPrint object with the specified borders and default output to stdout.
     pub fn new_with_borders(borders: TPrintBordersRef, show_borders: bool, show_headers: bool, spaces_left: usize, extra_spaces_between: usize) -> Self {
         TPrint {
             output: Rc::new(RefCell::new(TPrintOutputStdout {})),
@@ -61,6 +64,7 @@ impl TPrint {
         }
     }
 
+    /// Creates a new TPrint object with the specified borders and output.
     pub fn new_with_borders_output(borders: TPrintBordersRef, output: TPrintOutputRef, show_borders: bool, show_headers: bool, spaces_left: usize, extra_spaces_between: usize) -> Self {
         TPrint {
             output,
@@ -74,11 +78,13 @@ impl TPrint {
         }
     }
 
-    pub fn column_add(&mut self, caption: &str, caption_align: TPrintAlign, data_align: TPrintAlign) -> &mut Self {
-        self.columns.push(TPrintColumn::new(caption, caption_align, data_align));
+    /// Adds a new column with the specified caption text, caption alignment and cells alignment.
+    pub fn column_add(&mut self, caption: &str, caption_align: TPrintAlign, cell_align: TPrintAlign) -> &mut Self {
+        self.columns.push(TPrintColumn::new(caption, caption_align, cell_align));
         self
     }
 
+    /// Adds a cell data to the table. The data is added to columns in a consecutive order.
     pub fn add_data<T: fmt::Display>(&mut self, value: T) -> &mut Self {
         let column_id = self.current_column_id;
         if let Some(column) = self.columns.get_mut(column_id) {
@@ -167,6 +173,7 @@ impl TPrint {
         self.output.borrow_mut().print_str(&whitespace.repeat(right_spaces));
     }
 
+    /// Prints the table to the output.
     pub fn print(&self) {
         let total_rows: usize = self.columns.iter().map(|c| c.get_rows_count()).max().unwrap_or(0);
 
@@ -215,7 +222,7 @@ impl TPrint {
                     self.print_internal_border(&TPrintBordersType::MiddleMiddleVLine);
                 }
 
-                self.print_cell(c.get_str(r), c.get_max_width(), c.get_data_align(), whitespace);
+                self.print_cell(c.get_str(r), c.get_max_width(), c.get_cell_align(), whitespace);
             }
             self.print_right_border(&TPrintBordersType::MiddleRightVLine);
 

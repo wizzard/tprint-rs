@@ -1,3 +1,4 @@
+/// Represents borders for tables
 #[derive(PartialEq)]
 pub enum TPrintBordersType {
     WhiteSpace,
@@ -49,7 +50,7 @@ struct TPrintBordersTable {
     border: &'static str
 }
 
-
+/// ASCII borders (used by default)
 pub struct TPrintBordersASCII {}
 
 static TPRINT_BORDERS_ASCII_TABLE: &[TPrintBordersTable] = &[
@@ -109,6 +110,7 @@ impl TPrintBorders for TPrintBordersASCII {
     }
 }
 
+/// Unicode borders
 pub struct TPrintBordersUnicode {}
 
 // https://www.utf8-chartable.de/unicode-utf8-table.pl?start=9472&unicodeinhtml=dec
@@ -169,7 +171,7 @@ impl TPrintBorders for TPrintBordersUnicode {
     }
 }
 
-
+/// HTML borders
 pub struct TPrintBordersHTML {}
 
 static TPRINT_BORDERS_HTML_TABLE: &[TPrintBordersTable] = &[

@@ -1,32 +1,37 @@
 use crate::utils::get_string_width;
 
+/// Represents the alignment of the text in the column.
 pub enum TPrintAlign {
+    /// Left text alignment for captions / cell data
     Left,
+    /// Rigth text alignment for captions / cell data
     Right,
+    /// Center text alignment for captions / cell data
     Center,
 }
 
-pub struct TPrintColumn {
+pub(crate) struct TPrintColumn {
     caption: String,
     caption_align: TPrintAlign,
-    data_align: TPrintAlign,
-    data: Vec<String>,
+    cell_align: TPrintAlign,
+    cells: Vec<String>,
     max_width: usize,
 }
 
+/// Represents a column in the table.
 impl TPrintColumn {
-    pub fn new(caption: &str, caption_align: TPrintAlign, data_align: TPrintAlign) -> TPrintColumn {
+    pub(crate) fn new(caption: &str, caption_align: TPrintAlign, cell_align: TPrintAlign) -> TPrintColumn {
         TPrintColumn {
             caption: caption.to_string(),
             caption_align,
-            data_align,
-            data: Vec::new(),
+            cell_align,
+            cells: Vec::new(),
             max_width: get_string_width(caption)
         }
     }
 
     pub fn add_data<T: ToString>(&mut self, value: T) {
-        self.data.push(value.to_string());
+        self.cells.push(value.to_string());
 
         let value_len = get_string_width(&value.to_string());
 
@@ -36,10 +41,10 @@ impl TPrintColumn {
     }
 
     pub fn get_str(&self, row_id: usize) -> &str {
-        if self.data.len() <= row_id {
+        if self.cells.len() <= row_id {
             return ""
         }
-        &self.data[row_id]
+        &self.cells[row_id]
     }
 
     pub fn get_caption(&self) -> &str {
@@ -50,14 +55,14 @@ impl TPrintColumn {
         &self.caption_align
     }
 
-    pub fn get_data_align(&self) -> &TPrintAlign {
-        &self.data_align
+    pub fn get_cell_align(&self) -> &TPrintAlign {
+        &self.cell_align
     }
     pub fn get_max_width(&self) -> usize {
         self.max_width
     }
 
     pub fn get_rows_count(&self) -> usize {
-        self.data.len()
+        self.cells.len()
     }
 }
